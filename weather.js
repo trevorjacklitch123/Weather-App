@@ -1,5 +1,4 @@
-(function(){
-
+"use strict"
 
 let ipApiResponse = {};
 let OWMApiResponse = {};
@@ -13,6 +12,23 @@ fetch("http://ip-api.com/json")
     });
 
 
+
+
+
+function initMap() {
+    const position = {lat: ipApiResponse.lat, lng: ipApiResponse.lon};
+
+    let map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 10,
+        center: position
+    });
+    const marker = new google.maps.Marker({position: position, map: map});
+}
+
+
+
+
+    
 function OWMApiCall(city){
 /*  
     OWM means OpenWeatherMap.
@@ -20,7 +36,7 @@ function OWMApiCall(city){
 */
 const OWMBaseUrl = "http://api.openweathermap.org/data/2.5/weather?";
 //  OWMAPIKey will never be pushed onto github.
-const OWMAPIKey = "";
+const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
 const apiRequestURL = `${OWMBaseUrl}q=${city}&APPID=${OWMAPIKey}`;
 
 fetch(apiRequestURL)
@@ -34,11 +50,19 @@ fetch(apiRequestURL)
     });
 }
 
+
+
+
+
 function weatherRetrieved(weather){
     const temperatureFarenheit = (weather.main.temp - 273.15) * (9/5) + 32;
     const cardinalWind = cardinalWindDirection(weather.wind.deg);
     const windSpeed = weather.wind.speed * 2.237; // Miles per hour
 }
+
+
+
+
 
 function cardinalWindDirection(windDegree){
     if(windDegree >= 348.75 || windDegree <= 11.25)
@@ -74,9 +98,3 @@ function cardinalWindDirection(windDegree){
     else if(windDegree > 326.25 && windDegree < 348.75)
         return "NNE";
 }
-
-
-
-
-
-})();
