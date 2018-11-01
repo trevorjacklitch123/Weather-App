@@ -64,15 +64,56 @@ fetch(apiRequestURL)
 
 
 function weatherRetrieved(weather){
-    const temperatureFarenheit = (weather.main.temp - 273.15) * (9/5) + 32;
+    const temperatureFarenheit = Math.round((weather.main.temp - 273.15) * (9/5) + 32);
     const cardinalWind = cardinalWindDirection(weather.wind.deg);
-    const windSpeed = weather.wind.speed * 2.237; // Miles per hour
+    const windSpeed = Math.round(weather.wind.speed * 2.237); // Miles per hour
+
+    document.getElementById("temp").innerText = temperatureFarenheit + " °F";
+    document.getElementById("windSpeed").innerText = windSpeed + " miles/hour";
+    document.getElementById("windDirection").innerText = cardinalWind;
 }
 
 
 
 
-
+// Function to change the temp into "Imperial"(Farenheit), "Metric"(Celsius), or "Standard"(Kelvin).
+function changeTemperatureType(temp, startType, endType){
+    switch(startType){
+        case "Imperial":{
+            switch(endType){
+                case "Metric":{
+                    return (temp - 32) * (5 / 9);
+                }
+                case "Standard":{
+                    return (temp - 32) * (5 / 9) + 273.15;
+                }
+            }
+            break;
+        }
+        case "Metric":{
+            switch(endType){
+                case "Imperial":{
+                    return (temp * (9 / 5)) + 32;
+                }
+                case "Standard":{
+                    return temp + 273.15;
+                }
+            }
+            break;
+        }
+        case "Standard":{
+            switch(endType){
+                case "Imperial":{
+                    return (temp - 273.15) * (9 / 5) + 32;
+                }
+                case "Metric":{
+                    return temp - 273.15;
+                }
+            }
+            break;
+        }
+    }
+}
 function cardinalWindDirection(windDegree){
     if(windDegree >= 348.75 || windDegree <= 11.25)
         return "N";

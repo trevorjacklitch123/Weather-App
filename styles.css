@@ -1,6 +1,15 @@
 #map{
-    height: 50%;
+    height: 300px;
+    width: 100%;
 }
 html, body{
     height: 100%;
+}
+#container{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+main{
+    display: grid;
+    grid-template-columns: 60% 40%;
 }
