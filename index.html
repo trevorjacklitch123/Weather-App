@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="styles.css">
     <title>Current Weather Website</title>
 </head>
@@ -11,7 +12,7 @@
     <div id="findWeather"></div>
     <div id="container">
         <div class="column">
-            <div>
+            <div id="weatherInformation">
                 <span>Temperature</span>
                 <span id="temp"></span>
                 <span>Wind Speed</span>
@@ -22,6 +23,8 @@
         </div>
         <div class="column">
             <div id="map"></div>
+            <h3 id="unitsHeader">Change Units</h3>
+            <div id="units"></div>
         </div>
     </div>
     
