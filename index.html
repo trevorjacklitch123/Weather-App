@@ -9,16 +9,25 @@
     <title>Current Weather Website</title>
 </head>
 <body>
-    <div id="findWeather"></div>
+    <div id="findWeather">
+        <h1>Find Weather</h1>
+        <div>
+            <input type="text">
+            <button>Search</button>
+        </div>
+    </div>
     <div id="container">
         <div class="column">
+            <div id="locationContainer">
+                <div id="locationInformation"></div>
+            </div>
             <div id="weatherInformation">
-                <span>Temperature</span>
-                <span id="temp"></span>
-                <span>Wind Speed</span>
-                <span id="windSpeed"></span>
-                <span>Wind Direction</span>
-                <span id="windDirection"></span>
+                <p>Temperature</p>
+                <p id="temp"></p>
+                <p>Wind Speed</p>
+                <p id="windSpeed"></p>
+                <p>Wind Direction</p>
+                <p id="windDirection"></p>
             </div>
         </div>
         <div class="column">

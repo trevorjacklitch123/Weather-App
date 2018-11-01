@@ -32,6 +32,8 @@ function initMap() {
 
 function setupLocationHTML(jsonData){
     const {city, regionName, country, zip, timezone} = jsonData;
+
+    document.getElementById("locationInformation").innerText = `${city}, ${regionName}`;
 }
 
 
