@@ -8,13 +8,14 @@ fetch("http://ip-api.com/json")
         response.json().then((json) => {
             ipApiResponse = json;
             OWMApiCall(ipApiResponse.city);
+            setupLocationHTML(json);
         })
     });
 
 
 
 
-
+// Need to find a way to call this once both the google api and ip api response are done
 function initMap() {
     const position = {lat: ipApiResponse.lat, lng: ipApiResponse.lon};
 
@@ -23,6 +24,14 @@ function initMap() {
         center: position
     });
     const marker = new google.maps.Marker({position: position, map: map});
+}
+
+
+
+
+
+function setupLocationHTML(jsonData){
+    const {city, regionName, country, zip, timezone} = jsonData;
 }
 
 
