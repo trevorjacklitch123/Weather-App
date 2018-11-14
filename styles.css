@@ -1,5 +1,6 @@
 #findWeather{
     height: 25vw;
+    margin: 2px 5px 5px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-image: linear-gradient(rgb(145, 255, 154), rgb(81, 211, 94));
 }
@@ -8,13 +9,18 @@ h1{
     text-align: center;
     margin: 5px 5px;
 }
+.column{
+    margin: 5px 5px 5px;
+}
 #map{
     height: 300px;
     width: 100%;
 }
-#container{
-    display: grid;
-    grid-template-columns: 50% 50%;
+@media only screen and (min-width: 600px) {
+    #container{
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
 }
 #locationContainer{
     height: 6vw;

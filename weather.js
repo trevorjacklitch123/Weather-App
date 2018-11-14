@@ -1,5 +1,12 @@
 "use strict"
 
+const input = document.getElementById("searchText");
+const button = document.getElementById("searchButton");
+button.addEventListener("click", (event) => {
+    event.preventDefault();
+    const inputText = input.value;
+});
+
 let ipApiResponse = {};
 let OWMApiResponse = {};
 
@@ -56,7 +63,6 @@ fetch(apiRequestURL)
     })
     .then(responseJson => {
         OWMApiResponse = responseJson;
-        console.log(OWMApiResponse);
         weatherRetrieved(OWMApiResponse);
     });
 }
@@ -77,7 +83,12 @@ function weatherRetrieved(weather){
 
 
 
-
+function temperatureColor(temp){
+    if(temp < 0)
+        return "rgb(0,0,255)";
+    else if(temp > 100)
+        return "rgb(255,0,0)";
+}
 // Function to change the temp into "Imperial"(Farenheit), "Metric"(Celsius), or "Standard"(Kelvin).
 function changeTemperatureType(temp, startType, endType){
     switch(startType){
