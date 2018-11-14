@@ -50,12 +50,21 @@ function setupLocationHTML(jsonData){
 function OWMApiCall(city){
 /*  
     OWM means OpenWeatherMap.
-    This OWM API call only works for people in the US. Can be changed later to include other countries?
+    This OWM API call only works for people in the US. Can be changed later to include other countries
 */
 const OWMBaseUrl = "http://api.openweathermap.org/data/2.5/weather?";
 //  OWMAPIKey will never be pushed onto github.
 const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
-const apiRequestURL = `${OWMBaseUrl}q=${city}&APPID=${OWMAPIKey}`;
+let units = "";
+if(localStorage.getItem("Units") === "Metric")
+    units = "&units=metric";
+else if(localStorage.getItem("Units") === "Imperial")
+    units = "&units=imperial";
+else if(localStorage.getItem("Units") !== "Standard"){
+    localStorage.setItem("Units", "Imperial");
+    units = "&units=imperial";
+}
+const apiRequestURL = `${OWMBaseUrl}q=${city}&APPID=${OWMAPIKey}${units}`;
 
 fetch(apiRequestURL)
     .then(response => {
@@ -72,12 +81,28 @@ fetch(apiRequestURL)
 
 
 function weatherRetrieved(weather){
-    const temperatureFarenheit = Math.round((weather.main.temp - 273.15) * (9/5) + 32);
-    const cardinalWind = cardinalWindDirection(weather.wind.deg);
-    const windSpeed = Math.round(weather.wind.speed * 2.237); // Miles per hour
+    let temperature = Math.round(weather.main.temp);
+    let cardinalWind = cardinalWindDirection(weather.wind.deg);
+    let windSpeed = Math.round(weather.wind.speed);
 
-    document.getElementById("temp").innerText = temperatureFarenheit + " °F";
-    document.getElementById("windSpeed").innerText = windSpeed + " miles/hour";
+    const units = localStorage.getItem("Units");
+    if(units === "Standard"){
+        temperature += " K";
+        windSpeed += " m/s";
+    }
+    else if(units === "Metric"){
+        temperature += " °C";
+        windSpeed += " m/s";
+    }
+    else if(units === "Imperial"){
+        temperature += " °F";
+        windSpeed += " miles/hour";
+    }
+
+
+
+    document.getElementById("temp").innerText = temperature;
+    document.getElementById("windSpeed").innerText = windSpeed;
     document.getElementById("windDirection").innerText = cardinalWind;
 }
 
