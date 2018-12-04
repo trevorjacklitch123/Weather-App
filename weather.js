@@ -9,12 +9,14 @@ button.addEventListener("click", (event) => {
 
 let ipApiResponse = {};
 let OWMApiResponse = {};
+let date = new Date();
 
 fetch("http://ip-api.com/json")
     .then((response) => {
         response.json().then((json) => {
             ipApiResponse = json;
-            OWMApiCall(ipApiResponse.city);
+            OWMApiCall(ipApiResponse.lat, ipApiResponse.lon);
+            initMap(ipApiResponse.lat, ipApiResponse.lon);
             setupLocationHTML(json);
         })
     });
@@ -22,9 +24,8 @@ fetch("http://ip-api.com/json")
 
 
 
-// Need to find a way to call this once both the google api and ip api response are done
-function initMap() {
-    const position = {lat: ipApiResponse.lat, lng: ipApiResponse.lon};
+function initMap(lat, lon) {
+    const position = {lat: lat, lng: lon};
 
     let map = new google.maps.Map(document.getElementById("map"), {
         zoom: 10,
@@ -47,7 +48,7 @@ function setupLocationHTML(jsonData){
 
 
     
-function OWMApiCall(city){
+function OWMApiCall(lat, lon){
 /*  
     OWM means OpenWeatherMap.
     This OWM API call only works for people in the US. Can be changed later to include other countries
@@ -64,7 +65,7 @@ else if(localStorage.getItem("Units") !== "Standard"){
     localStorage.setItem("Units", "Imperial");
     units = "&units=imperial";
 }
-const apiRequestURL = `${OWMBaseUrl}q=${city}&APPID=${OWMAPIKey}${units}`;
+const apiRequestURL = `${OWMBaseUrl}lat=${Math.round(lat)}&lon=${Math.round(lon)}&APPID=${OWMAPIKey}${units}`;
 
 fetch(apiRequestURL)
     .then(response => {
