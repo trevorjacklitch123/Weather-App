@@ -15,13 +15,24 @@ fetch("http://ip-api.com/json")
     .then((response) => {
         response.json().then((json) => {
             ipApiResponse = json;
-            OWMApiCall(ipApiResponse.lat, ipApiResponse.lon);
+            OWMApiCallLatLon(ipApiResponse.lat, ipApiResponse.lon);
             initMap(ipApiResponse.lat, ipApiResponse.lon);
             setupLocationHTML(json);
         })
     });
 
 
+const searchText = document.getElementById("searchText");
+document.getElementById("searchButton").addEventListener("click", () => {
+    const input = searchText.value;
+    const zipCodeRegex = /\d\d\d\d\d/;
+    if(!zipCodeRegex.test(input)){
+        console.log("Invalid zipcode");
+    }
+    else{
+        OWMApiCallZipCode(input);
+    }
+});
 
 
 function initMap(lat, lon) {
@@ -44,17 +55,19 @@ function setupLocationHTML(jsonData){
     document.getElementById("locationInformation").innerText = `${city}, ${regionName}`;
 }
 
-
+function setupLocationHTMLOWM(name){
+    document.getElementById("locationInformation").innerText = name;
+}
 
 
     
-function OWMApiCall(lat, lon){
+function OWMApiCallLatLon(lat, lon){
 /*  
     OWM means OpenWeatherMap.
     This OWM API call only works for people in the US. Can be changed later to include other countries
 */
 const OWMBaseUrl = "http://api.openweathermap.org/data/2.5/weather?";
-//  OWMAPIKey will never be pushed onto github.
+//  OWMAPIKey should never be pushed onto github.
 const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
 let units = "";
 if(localStorage.getItem("Units") === "Metric")
@@ -77,6 +90,35 @@ fetch(apiRequestURL)
     });
 }
 
+function OWMApiCallZipCode(zip){
+    /*  
+        OWM means OpenWeatherMap.
+        This OWM API call only works for people in the US. Can be changed later to include other countries
+    */
+    const OWMBaseUrl = "http://api.openweathermap.org/data/2.5/weather?";
+    //  OWMAPIKey should never be pushed onto github.
+    const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
+    let units = "";
+    if(localStorage.getItem("Units") === "Metric")
+        units = "&units=metric";
+    else if(localStorage.getItem("Units") === "Imperial")
+        units = "&units=imperial";
+    else if(localStorage.getItem("Units") !== "Standard"){
+        localStorage.setItem("Units", "Imperial");
+        units = "&units=imperial";
+    }
+    const apiRequestURL = `${OWMBaseUrl}zip=${zip},us&APPID=${OWMAPIKey}${units}`;
+    
+    fetch(apiRequestURL)
+        .then(response => {
+            return response.json();
+        })
+        .then(responseJson => {
+            weatherRetrieved(responseJson);
+            initMap(responseJson.coord.lat, responseJson.coord.lon);
+            setupLocationHTMLOWM(responseJson.name);
+        });
+    }
 
 
 
