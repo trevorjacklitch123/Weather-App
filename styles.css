@@ -1,3 +1,6 @@
+:root{
+    background-color: gainsboro;
+}
 #findWeather{
     height: 25vw;
     margin: 2px 5px 5px;
@@ -53,4 +56,20 @@ h1{
 #ErrorText{
     color: red;
     margin-top: 10px;
+}
+#searchText{
+    border: none;
+    letter-spacing: 0.3em;
+    font-size: 2vw;
+    border-radius: 15px;
+    text-align: center;
+    padding: 0.3em;
+}
+#searchButton{
+    font-size: 2vw;
+    border: none;
+    border-radius: 15px;
+}
+#searchButton:hover{
+    background-color: white;
 }
