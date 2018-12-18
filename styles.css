@@ -50,3 +50,7 @@ h1{
 #search_bar{
     text-align: center;
 }
+#ErrorText{
+    color: red;
+    margin-top: 10px;
+}

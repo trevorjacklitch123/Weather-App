@@ -1,12 +1,5 @@
 "use strict"
 
-const input = document.getElementById("searchText");
-const button = document.getElementById("searchButton");
-button.addEventListener("click", (event) => {
-    event.preventDefault();
-    const inputText = input.value;
-});
-
 let ipApiResponse = {};
 let OWMApiResponse = {};
 let date = new Date();
@@ -24,6 +17,7 @@ fetch("http://ip-api.com/json")
 
 const searchText = document.getElementById("searchText");
 document.getElementById("searchButton").addEventListener("click", () => {
+    document.getElementById("ErrorText").innerText = "";
     const input = searchText.value;
     const zipCodeRegex = /\d\d\d\d\d/;
     if(!zipCodeRegex.test(input)){
@@ -111,16 +105,23 @@ function OWMApiCallZipCode(zip){
     
     fetch(apiRequestURL)
         .then(response => {
-            return response.json();
+            if(response.ok) {
+                return response.json();
+            }
+            handleError();
+            throw new Error(response.statusText);
         })
         .then(responseJson => {
             weatherRetrieved(responseJson);
             initMap(responseJson.coord.lat, responseJson.coord.lon);
             setupLocationHTMLOWM(responseJson.name);
-        });
+        })
+        .catch(error => console.error(error));
     }
 
-
+function handleError(){
+    document.getElementById("ErrorText").innerText = "Not An Actual Zip Code";
+}
 
 
 function weatherRetrieved(weather){
