@@ -9,14 +9,15 @@ fetch("http://ip-api.com/json")
         response.json().then((json) => {
             ipApiResponse = json;
             OWMApiCallLatLon(ipApiResponse.lat, ipApiResponse.lon);
-            initMap(ipApiResponse.lat, ipApiResponse.lon);
+            initMap(json.lat, json.lon);
             setupLocationHTML(json);
         })
     });
 
 
 const searchText = document.getElementById("searchText");
-document.getElementById("searchButton").addEventListener("click", () => {
+document.getElementById("searchForm").addEventListener("submit", (e) => {
+    e.preventDefault();
     document.getElementById("ErrorText").innerText = "";
     const input = searchText.value;
     const zipCodeRegex = /\d\d\d\d\d/;
@@ -28,10 +29,13 @@ document.getElementById("searchButton").addEventListener("click", () => {
     }
 });
 
+function googleMapsCallback(){
+    const x = 0;
+}
 
-function initMap(lat, lon) {
-    const position = {lat: lat, lng: lon};
-
+function initMap(latitude, longitude) {
+    const position = {lat: latitude, lng: longitude};
+    console.log(position);
     let map = new google.maps.Map(document.getElementById("map"), {
         zoom: 10,
         center: position
@@ -40,7 +44,17 @@ function initMap(lat, lon) {
 }
 
 
-
+unsplashAPICall("Fargo");
+function unsplashAPICall(query){
+    const baseURL = "https://api.unsplash.com/search/photos?";
+    const accessKey = "4f5e889809b6a4742629683ed7700e859b969d8b125df63e50e906e5122bf2c2";
+    //Should never be uploaded in production code
+    
+    const url = `${baseURL}client_id=${accessKey}&query=${query}&orientation=landscape`;
+    fetch(url)
+    .then((response) => {return response.json()})
+    .then((json) => {console.log(json)});
+}
 
 
 function setupLocationHTML(jsonData){

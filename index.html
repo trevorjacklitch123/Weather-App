@@ -12,8 +12,10 @@
     <div id="findWeather">
         <h1>Find Weather</h1>
         <div id="search_bar">
-            <input type="text" placeholder="Zip Code" id="searchText">
-            <button id="searchButton">Search</button>
+            <form id="searchForm">
+                <input type="text" placeholder="Zip Code" id="searchText">
+                <input type="submit" value="Search" id="submitButton">
+            </form>
             <br />
             <p id="ErrorText"></p>
         </div>
@@ -39,8 +41,8 @@
         </div>
     </div>
     
-
+    
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwT428y3Hoe7l2CNXR01EaKoM7Yieyot4&callback=googleMapsCallback"></script>
     <script src="weather.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwT428y3Hoe7l2CNXR01EaKoM7Yieyot4&callback=initMap"></script>
 </body>
 </html>
