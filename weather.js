@@ -103,7 +103,7 @@ function OWMApiCallZipCode(zip){
         OWM means OpenWeatherMap.
         This OWM API call only works for people in the US. Can be changed later to include other countries
     */
-    const OWMBaseUrl = "http://api.openweathermap.org/data/2.5/weather?";
+    const OWMBaseUrl = "https://api.openweathermap.org/data/2.5/weather?";
     //  OWMAPIKey should never be pushed onto github.
     const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
     let units = "";
