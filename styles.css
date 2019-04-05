@@ -67,9 +67,8 @@ h1{
 }
 #submitButton{
     font-size: 2vw;
-    border: none;
     border-radius: 15px;
 }
 #submitButton:hover{
-    background-color: white;
+    cursor: pointer;
 }

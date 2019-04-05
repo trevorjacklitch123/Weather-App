@@ -2,7 +2,7 @@
 
 let OWMApiResponse = {};
 let date = new Date();
-getLocation();
+
 function getLocation(){
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(geolocationFunction);
@@ -13,8 +13,10 @@ function getLocation(){
 }
 
 function geolocationFunction(position){
-    console.log(position);
-    OWMApiCallLatLon(position.longitude, position.latitude);
+    let data = {};
+    data.longitude = position.coords.longitude;
+    data.latitude = position.coords.latitude;
+    OWMAPICall(data);
 }
 
 const searchText = document.getElementById("searchText");
@@ -27,9 +29,15 @@ document.getElementById("searchForm").addEventListener("submit", (e) => {
         console.log("Invalid zipcode");
     }
     else{
-        OWMApiCallZipCode(input);
+        let data = {};
+        data.zipCode = input;
+        OWMAPICall(data);
     }
 });
+
+document.getElementById("currentLocationButton").addEventListener("click", () => {
+    getLocation();
+})
 
 function googleMapsCallback(){
     const x = 0;
@@ -37,7 +45,6 @@ function googleMapsCallback(){
 
 function initMap(latitude, longitude) {
     const position = {lat: latitude, lng: longitude};
-    console.log(position);
     let map = new google.maps.Map(document.getElementById("map"), {
         zoom: 10,
         center: position
@@ -67,16 +74,43 @@ function setupLocationHTMLOWM(name){
     document.getElementById("locationInformation").innerText = name;
 }
 
+function OWMAPICall(data){
+    const OWMBaseUrl = "https://api.openweathermap.org/data/2.5/weather?";
+    const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
 
+    let apiRequestURL;
+    let units = "&units=imperial";
+    const localUnits = localStorage.getItem("Units");
+
+    if(data.latitude & data.longitude){
+        
+        apiRequestURL = `${OWMBaseUrl}lat=${data.latitude}&lon=${data.longitude}&APPID=${OWMAPIKey}${units}`;
+    }
+    else if(data.zipCode){
+
+        apiRequestURL = `${OWMBaseUrl}zip=${data.zipCode},us&APPID=${OWMAPIKey}${units}`;
+    }
+
+    fetch(apiRequestURL)
+    .then(response => {
+        return response.json();
+    })
+    .then(responseJson => {
+        OWMApiResponse = responseJson;
+        weatherRetrieved(OWMApiResponse);
+        initMap(responseJson.coord.lat, responseJson.coord.lon);
+        setupLocationHTMLOWM(responseJson.name);
+    });
+}
     
 function OWMApiCallLatLon(lat, lon){
 /*  
     OWM means OpenWeatherMap.
     This OWM API call only works for people in the US. Can be changed later to include other countries
 */
-const OWMBaseUrl = "https://api.openweathermap.org/data/2.5/weather?";
+
 //  OWMAPIKey should never be pushed onto github.
-const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
+
 let units = "";
 if(localStorage.getItem("Units") === "Metric")
     units = "&units=metric";
@@ -86,16 +120,9 @@ else if(localStorage.getItem("Units") !== "Standard"){
     localStorage.setItem("Units", "Imperial");
     units = "&units=imperial";
 }
-const apiRequestURL = `${OWMBaseUrl}lat=${Math.round(lat)}&lon=${Math.round(lon)}&APPID=${OWMAPIKey}${units}`;
 
-fetch(apiRequestURL)
-    .then(response => {
-        return response.json();
-    })
-    .then(responseJson => {
-        OWMApiResponse = responseJson;
-        weatherRetrieved(OWMApiResponse);
-    });
+
+
 }
 
 function OWMApiCallZipCode(zip){
@@ -115,7 +142,7 @@ function OWMApiCallZipCode(zip){
         localStorage.setItem("Units", "Imperial");
         units = "&units=imperial";
     }
-    const apiRequestURL = `${OWMBaseUrl}zip=${zip},us&APPID=${OWMAPIKey}${units}`;
+    
     
     fetch(apiRequestURL)
         .then(response => {
