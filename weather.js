@@ -1,19 +1,21 @@
 "use strict"
 
-let ipApiResponse = {};
 let OWMApiResponse = {};
 let date = new Date();
+getLocation();
+function getLocation(){
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(geolocationFunction);
+    }
+    else{
+        console.log("Geolocation is not supported by this browser");
+    }
+}
 
-fetch("http://ip-api.com/json")
-    .then((response) => {
-        response.json().then((json) => {
-            ipApiResponse = json;
-            OWMApiCallLatLon(ipApiResponse.lat, ipApiResponse.lon);
-            initMap(json.lat, json.lon);
-            setupLocationHTML(json);
-        })
-    });
-
+function geolocationFunction(position){
+    console.log(position);
+    OWMApiCallLatLon(position.longitude, position.latitude);
+}
 
 const searchText = document.getElementById("searchText");
 document.getElementById("searchForm").addEventListener("submit", (e) => {
@@ -43,8 +45,6 @@ function initMap(latitude, longitude) {
     const marker = new google.maps.Marker({position: position, map: map});
 }
 
-
-unsplashAPICall("Fargo");
 function unsplashAPICall(query){
     const baseURL = "https://api.unsplash.com/search/photos?";
     const accessKey = "4f5e889809b6a4742629683ed7700e859b969d8b125df63e50e906e5122bf2c2";
@@ -74,7 +74,7 @@ function OWMApiCallLatLon(lat, lon){
     OWM means OpenWeatherMap.
     This OWM API call only works for people in the US. Can be changed later to include other countries
 */
-const OWMBaseUrl = "http://api.openweathermap.org/data/2.5/weather?";
+const OWMBaseUrl = "https://api.openweathermap.org/data/2.5/weather?";
 //  OWMAPIKey should never be pushed onto github.
 const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
 let units = "";
