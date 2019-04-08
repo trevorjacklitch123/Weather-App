@@ -27,7 +27,7 @@ document.getElementById("searchForm").addEventListener("submit", (e) => {
     const zipCodeRegex = /\d\d\d\d\d/;
     if(!zipCodeRegex.test(input)){
         console.log("Invalid zipcode");
-        handleError();
+        handleError("Invalid zipcode");
     }
     else{
         let data = {};
@@ -101,11 +101,16 @@ function OWMAPICall(data){
         return response.json();
     })
     .then(responseJson => {
-        OWMApiResponse = responseJson;
         console.log(responseJson);
-        weatherRetrieved(OWMApiResponse);
-        initMap(responseJson.coord.lat, responseJson.coord.lon);
-        setupLocationHTMLOWM(responseJson.name);
+        if(responseJson.cod === 200){
+            OWMApiResponse = responseJson;
+            weatherRetrieved(responseJson);
+            initMap(responseJson.coord.lat, responseJson.coord.lon);
+            setupLocationHTMLOWM(responseJson.name);
+        }
+        else{
+            handleError("Couldn't find that city");
+        }
     });
 }
 
@@ -113,8 +118,8 @@ function OWMAPICall(data){
 
 
 
-function handleError(){
-    document.getElementById("ErrorText").innerText = "Not An Actual Zip Code";
+function handleError(text){
+    document.getElementById("ErrorText").innerText = text;
 }
 
 
