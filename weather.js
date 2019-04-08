@@ -27,6 +27,7 @@ document.getElementById("searchForm").addEventListener("submit", (e) => {
     const zipCodeRegex = /\d\d\d\d\d/;
     if(!zipCodeRegex.test(input)){
         console.log("Invalid zipcode");
+        handleError();
     }
     else{
         let data = {};
@@ -74,6 +75,10 @@ function setupLocationHTMLOWM(name){
     document.getElementById("locationInformation").innerText = name;
 }
 
+
+
+
+
 function OWMAPICall(data){
     const OWMBaseUrl = "https://api.openweathermap.org/data/2.5/weather?";
     const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
@@ -97,68 +102,16 @@ function OWMAPICall(data){
     })
     .then(responseJson => {
         OWMApiResponse = responseJson;
+        console.log(responseJson);
         weatherRetrieved(OWMApiResponse);
         initMap(responseJson.coord.lat, responseJson.coord.lon);
         setupLocationHTMLOWM(responseJson.name);
     });
 }
-    
-function OWMApiCallLatLon(lat, lon){
-/*  
-    OWM means OpenWeatherMap.
-    This OWM API call only works for people in the US. Can be changed later to include other countries
-*/
-
-//  OWMAPIKey should never be pushed onto github.
-
-let units = "";
-if(localStorage.getItem("Units") === "Metric")
-    units = "&units=metric";
-else if(localStorage.getItem("Units") === "Imperial")
-    units = "&units=imperial";
-else if(localStorage.getItem("Units") !== "Standard"){
-    localStorage.setItem("Units", "Imperial");
-    units = "&units=imperial";
-}
 
 
 
-}
 
-function OWMApiCallZipCode(zip){
-    /*  
-        OWM means OpenWeatherMap.
-        This OWM API call only works for people in the US. Can be changed later to include other countries
-    */
-    const OWMBaseUrl = "https://api.openweathermap.org/data/2.5/weather?";
-    //  OWMAPIKey should never be pushed onto github.
-    const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
-    let units = "";
-    if(localStorage.getItem("Units") === "Metric")
-        units = "&units=metric";
-    else if(localStorage.getItem("Units") === "Imperial")
-        units = "&units=imperial";
-    else if(localStorage.getItem("Units") !== "Standard"){
-        localStorage.setItem("Units", "Imperial");
-        units = "&units=imperial";
-    }
-    
-    
-    fetch(apiRequestURL)
-        .then(response => {
-            if(response.ok) {
-                return response.json();
-            }
-            handleError();
-            throw new Error(response.statusText);
-        })
-        .then(responseJson => {
-            weatherRetrieved(responseJson);
-            initMap(responseJson.coord.lat, responseJson.coord.lon);
-            setupLocationHTMLOWM(responseJson.name);
-        })
-        .catch(error => console.error(error));
-    }
 
 function handleError(){
     document.getElementById("ErrorText").innerText = "Not An Actual Zip Code";
@@ -193,12 +146,6 @@ function weatherRetrieved(weather){
 
 
 
-function temperatureColor(temp){
-    if(temp < 0)
-        return "rgb(0,0,255)";
-    else if(temp > 100)
-        return "rgb(255,0,0)";
-}
 // Function to change the temp into "Imperial"(Farenheit), "Metric"(Celsius), or "Standard"(Kelvin).
 function changeTemperatureType(temp, startType, endType){
     switch(startType){

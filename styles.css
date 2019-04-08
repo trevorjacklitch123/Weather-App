@@ -6,6 +6,7 @@
     margin: 2px 5px 5px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-image: linear-gradient(rgb(145, 255, 154), rgb(81, 211, 94));
+    border-radius: 50px;
 }
 h1{
     font-size: 6vw;
@@ -56,6 +57,7 @@ h1{
 #ErrorText{
     color: red;
     margin-top: 10px;
+    font-weight: bold;
 }
 #searchText{
     border: none;
@@ -70,5 +72,8 @@ h1{
     border-radius: 15px;
 }
 #submitButton:hover{
+    cursor: pointer;
+}
+#currentLocationButton:hover{
     cursor: pointer;
 }
