@@ -26,7 +26,6 @@ document.getElementById("searchForm").addEventListener("submit", (e) => {
     const input = searchText.value;
     const zipCodeRegex = /\d\d\d\d\d/;
     if(!zipCodeRegex.test(input)){
-        console.log("Invalid zipcode");
         handleError("Invalid zipcode");
     }
     else{
@@ -61,7 +60,17 @@ function unsplashAPICall(query){
     const url = `${baseURL}client_id=${accessKey}&query=${query}&orientation=landscape`;
     fetch(url)
     .then((response) => {return response.json()})
-    .then((json) => {console.log(json)});
+    .then((json) => {
+        console.log(json);
+        unsplashResponseSetup(json);
+    });
+}
+
+function unsplashResponseSetup(data){
+    document.getElementById("imageBackground").style.backgroundImage = `url("${data.results[0].urls.regular}")`;
+    document.getElementById("imageBackground").style.width = "300px";
+    document.getElementById("imageBackground").style.height = "300px";
+    document.getElementById("imageBackground").style.opacity = 0.5;
 }
 
 
@@ -107,12 +116,12 @@ function OWMAPICall(data){
         return response.json();
     })
     .then(responseJson => {
-        console.log(responseJson);
         if(responseJson.cod === 200){
             OWMApiResponse = responseJson;
             weatherRetrieved(responseJson);
             initMap(responseJson.coord.lat, responseJson.coord.lon);
             setupLocationHTMLOWM(responseJson.name);
+            unsplashAPICall(responseJson.name);
         }
         else{
             handleError("Couldn't find that city");
@@ -135,7 +144,6 @@ function weatherRetrieved(weather){
     let windSpeed = Math.round(weather.wind.speed);
 
     const units = localStorage.getItem("Units");
-    console.log(units);
     if(units === null){
         localStorage.setItem("Units", "Imperial");
         temperature += " °F";
@@ -167,18 +175,24 @@ function weatherRetrieved(weather){
 
 document.getElementById("imperialUnitsButton").addEventListener("click", () => {
     const newTemperature = Math.round(changeTemperatureType(parseInt(document.getElementById("temp").innerText.split(" ")[0]), localStorage.getItem("Units"), "Imperial"));
-    document.getElementById("temp").innerText = newTemperature + " °F";
-    localStorage.setItem("Units", "Imperial");
+    if(newTemperature){
+        document.getElementById("temp").innerText = newTemperature + " °F";
+        localStorage.setItem("Units", "Imperial");
+    }
 });
 document.getElementById("metricUnitsButton").addEventListener("click", () => {
     const newTemperature = Math.round(changeTemperatureType(parseInt(document.getElementById("temp").innerText.split(" ")[0]), localStorage.getItem("Units"), "Metric"));
-    document.getElementById("temp").innerText = newTemperature + " °C";
-    localStorage.setItem("Units", "Metric");
+    if(newTemperature){
+        document.getElementById("temp").innerText = newTemperature + " °C";
+        localStorage.setItem("Units", "Metric");
+    }
 });
 document.getElementById("standardUnitsButton").addEventListener("click", () => {
     const newTemperature = Math.round(changeTemperatureType(parseInt(document.getElementById("temp").innerText.split(" ")[0]), localStorage.getItem("Units"), "Standard"));
-    document.getElementById("temp").innerText = newTemperature + " K";
-    localStorage.setItem("Units", "Standard");
+    if(newTemperature){
+        document.getElementById("temp").innerText = newTemperature + " K";
+        localStorage.setItem("Units", "Standard");
+    }
 });
 
 
@@ -205,7 +219,6 @@ function changeTemperatureType(temp, startType, endType){
                     return (temp * (9 / 5)) + 32;
                 }
                 case "Standard":{
-                    console.log(temp);
                     return temp + 273.15;
                 }
                 default:{
