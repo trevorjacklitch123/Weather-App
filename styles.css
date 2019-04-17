@@ -1,10 +1,13 @@
 :root{
     background-color: gainsboro;
 }
+*{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 2vw;
+}
 #findWeather{
     height: 25vw;
     margin: 2px 5px 5px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-image: linear-gradient(rgb(145, 255, 154), rgb(81, 211, 94));
     border-radius: 50px;
 }
@@ -15,6 +18,10 @@ h1{
 }
 .column{
     margin: 5px 5px 5px;
+}
+.header{
+    font-size: 4vw;
+    font-weight: bold;
 }
 #map{
     height: 300px;
@@ -30,26 +37,22 @@ h1{
     height: 6vw;
     position: relative;
 }
+.centerContent{
+    text-align: center;
+}
 #weatherInformation{
     margin: 10px 5px;
     display: grid;
     grid-template-columns: 60% 40%;
     grid-row-gap: 10px;
     font-size: 3vw;
-    font-family: Arial, Helvetica, sans-serif;
 }
 #locationInformation{
     position: absolute;
     top: 50%;
     left: 20%;
     transform: translateY(-50%);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 3vw;
     align-self: center;
-}
-#unitsHeader{
-    font-size: 3vw;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 #search_bar{
     text-align: center;
@@ -62,13 +65,11 @@ h1{
 #searchText{
     border: none;
     letter-spacing: 0.3em;
-    font-size: 2vw;
     border-radius: 15px;
     text-align: center;
     padding: 0.3em;
 }
 #submitButton{
-    font-size: 2vw;
     border-radius: 15px;
 }
 #submitButton:hover{
@@ -76,4 +77,8 @@ h1{
 }
 #currentLocationButton:hover{
     cursor: pointer;
+}
+#unitsHeader{
+    text-align: center;
+    margin: 10px 0px;
 }

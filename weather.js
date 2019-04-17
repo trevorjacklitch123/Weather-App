@@ -83,8 +83,14 @@ function OWMAPICall(data){
     const OWMBaseUrl = "https://api.openweathermap.org/data/2.5/weather?";
     const OWMAPIKey = "736d3d373c597ed144ecdfc6e96c2af4";
 
-    let apiRequestURL;
-    let units = "&units=imperial";
+    let apiRequestURL, units;
+    if(!localStorage.getItem("Units")){
+        units = "&units=imperial";
+        localStorage.setItem("Units", "Imperial");
+    }
+    else{
+        units = `&units=${localStorage.getItem("Units")}`;
+    }
     const localUnits = localStorage.getItem("Units");
 
     if(data.latitude & data.longitude){
@@ -129,7 +135,13 @@ function weatherRetrieved(weather){
     let windSpeed = Math.round(weather.wind.speed);
 
     const units = localStorage.getItem("Units");
-    if(units === "Standard"){
+    console.log(units);
+    if(units === null){
+        localStorage.setItem("Units", "Imperial");
+        temperature += " °F";
+        windSpeed += " miles/hour";
+    }
+    else if(units === "Standard"){
         temperature += " K";
         windSpeed += " m/s";
     }
@@ -151,6 +163,25 @@ function weatherRetrieved(weather){
 
 
 
+
+
+document.getElementById("imperialUnitsButton").addEventListener("click", () => {
+    const newTemperature = Math.round(changeTemperatureType(parseInt(document.getElementById("temp").innerText.split(" ")[0]), localStorage.getItem("Units"), "Imperial"));
+    document.getElementById("temp").innerText = newTemperature + " °F";
+    localStorage.setItem("Units", "Imperial");
+});
+document.getElementById("metricUnitsButton").addEventListener("click", () => {
+    const newTemperature = Math.round(changeTemperatureType(parseInt(document.getElementById("temp").innerText.split(" ")[0]), localStorage.getItem("Units"), "Metric"));
+    document.getElementById("temp").innerText = newTemperature + " °C";
+    localStorage.setItem("Units", "Metric");
+});
+document.getElementById("standardUnitsButton").addEventListener("click", () => {
+    const newTemperature = Math.round(changeTemperatureType(parseInt(document.getElementById("temp").innerText.split(" ")[0]), localStorage.getItem("Units"), "Standard"));
+    document.getElementById("temp").innerText = newTemperature + " K";
+    localStorage.setItem("Units", "Standard");
+});
+
+
 // Function to change the temp into "Imperial"(Farenheit), "Metric"(Celsius), or "Standard"(Kelvin).
 function changeTemperatureType(temp, startType, endType){
     switch(startType){
@@ -162,6 +193,9 @@ function changeTemperatureType(temp, startType, endType){
                 case "Standard":{
                     return (temp - 32) * (5 / 9) + 273.15;
                 }
+                default:{
+                    return temp;
+                }
             }
             break;
         }
@@ -171,7 +205,11 @@ function changeTemperatureType(temp, startType, endType){
                     return (temp * (9 / 5)) + 32;
                 }
                 case "Standard":{
+                    console.log(temp);
                     return temp + 273.15;
+                }
+                default:{
+                    return temp;
                 }
             }
             break;
@@ -183,6 +221,9 @@ function changeTemperatureType(temp, startType, endType){
                 }
                 case "Metric":{
                     return temp - 273.15;
+                }
+                default:{
+                    return temp;
                 }
             }
             break;

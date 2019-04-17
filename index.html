@@ -24,7 +24,7 @@
     <div id="container">
         <div class="column" id="temperatureBackground">
             <div id="locationContainer">
-                <div id="locationInformation"></div>
+                <div id="locationInformation" class="header"></div>
             </div>
             <div id="weatherInformation">
                 <p>Temperature</p>
@@ -34,11 +34,17 @@
                 <p>Wind Direction</p>
                 <p id="windDirection"></p>
             </div>
+            <h3 id="unitsHeader" class="header">Change Units</h3>
+            <div id="units">
+                <div class="centerContent">
+                    <button id="imperialUnitsButton">Imperial</button>
+                    <button id="metricUnitsButton">Metric</button>
+                    <button id="standardUnitsButton">Standard</button>
+                </div>
+            </div>
         </div>
         <div class="column">
             <div id="map"></div>
-            <h3 id="unitsHeader">Change Units</h3>
-            <div id="units"></div>
         </div>
     </div>
     
