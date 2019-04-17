@@ -35,9 +35,9 @@ document.getElementById("searchForm").addEventListener("submit", (e) => {
     }
 });
 
-document.getElementById("currentLocationButton").addEventListener("click", () => {
+document.getElementById("geolocationIcon").addEventListener("click", () => {
     getLocation();
-})
+});
 
 function googleMapsCallback(){
     const x = 0;
@@ -68,9 +68,6 @@ function unsplashAPICall(query){
 
 function unsplashResponseSetup(data){
     document.getElementById("imageBackground").style.backgroundImage = `url("${data.results[0].urls.regular}")`;
-    document.getElementById("imageBackground").style.width = "300px";
-    document.getElementById("imageBackground").style.height = "300px";
-    document.getElementById("imageBackground").style.opacity = 0.5;
 }
 
 
@@ -121,7 +118,6 @@ function OWMAPICall(data){
             weatherRetrieved(responseJson);
             initMap(responseJson.coord.lat, responseJson.coord.lon);
             setupLocationHTMLOWM(responseJson.name);
-            unsplashAPICall(responseJson.name);
         }
         else{
             handleError("Couldn't find that city");

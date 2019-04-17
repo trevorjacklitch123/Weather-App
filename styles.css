@@ -1,40 +1,53 @@
 :root{
-    background-color: gainsboro;
+    background-color:rgb(245, 245, 245);
 }
 *{
-    font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 2vw;
 }
 #findWeather{
-    height: 20vw;
+    height: 30vh;
     margin: 2px 5px 5px;
-    background-image: linear-gradient(rgb(145, 255, 154), rgb(81, 211, 94));
-    border-radius: 50px;
+    background-color: blue;
+    border-radius: 0px 100px;
 }
 h1{
     font-size: 6vw;
     text-align: center;
     margin: 5px 5px;
 }
+img[src="geolocationIcon.png"]{
+    height: 60px;
+}
+img[src="geolocationIcon.png"]:hover{
+    cursor: pointer;
+}
 #imageBackground{
     border-radius: 5px;
     position: relative;
 }
+#topContainer{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
 .column{
-    margin: 5px 5px 5px;
+    margin: 20px 20px;
 }
 .header{
     font-size: 4vw;
     font-weight: bold;
 }
 #map{
-    height: 300px;
+    height: 30vw;
     width: 100%;
 }
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 415px) {
     #container{
         display: grid;
         grid-template-columns: 50% 50%;
+    }
+    :root{
+        margin: 0px 8vw;
     }
 }
 #locationContainer{
@@ -58,26 +71,19 @@ h1{
     transform: translateY(-50%);
     align-self: center;
 }
-#search_bar{
+#searchForm{
     text-align: center;
 }
 #ErrorText{
     color: red;
-    margin-top: 10px;
     font-weight: bold;
 }
 #searchText{
     border: none;
-    letter-spacing: 0.3em;
-    border-radius: 15px;
+    letter-spacing: 0.2em;
+    height: 50px;
+    border-radius: 20px;
     text-align: center;
-    padding: 0.3em;
-}
-#submitButton{
-    border-radius: 15px;
-}
-#submitButton:hover{
-    cursor: pointer;
 }
 #currentLocationButton:hover{
     cursor: pointer;

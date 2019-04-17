@@ -10,12 +10,11 @@
 </head>
 <body>
     <div id="findWeather">
-        <h1>Find Weather</h1>
-        <div id="search_bar">
+        <div id="topContainer">
+            <h1>Find Weather</h1>
             <form id="searchForm">
                 <input type="text" placeholder="Zip Code" id="searchText">
-                <input type="submit" value="Search" id="submitButton">
-                <button type="button" id="currentLocationButton">Use Current Location</button>
+                <img src="geolocationIcon.png" alt="Location Icon" id="geolocationIcon">
             </form>
             <br />
             <p id="ErrorText"></p>
@@ -23,17 +22,18 @@
     </div>
     <div id="container">
         <div class="column" id="temperatureBackground">
-            <div id="imageBackground"></div>
-            <div id="locationContainer">
-                <div id="locationInformation" class="header"></div>
-            </div>
-            <div id="weatherInformation">
-                <p>Temperature</p>
-                <p id="temp"></p>
-                <p>Wind Speed</p>
-                <p id="windSpeed"></p>
-                <p>Wind Direction</p>
-                <p id="windDirection"></p>
+            <div id="imageBackground">
+                <div id="locationContainer">
+                    <div id="locationInformation" class="header"></div>
+                </div>
+                <div id="weatherInformation">
+                    <p>Temperature</p>
+                    <p id="temp"></p>
+                    <p>Wind Speed</p>
+                    <p id="windSpeed"></p>
+                    <p>Wind Direction</p>
+                    <p id="windDirection"></p>
+                </div>
             </div>
             <h3 id="unitsHeader" class="header">Change Units</h3>
             <div id="units">
