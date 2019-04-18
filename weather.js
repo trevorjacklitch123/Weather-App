@@ -143,19 +143,19 @@ function weatherRetrieved(weather){
     if(units === null){
         localStorage.setItem("Units", "Imperial");
         temperature += " °F";
-        windSpeed += " miles/hour";
+        windSpeed += " mi / hour";
     }
     else if(units === "Standard"){
         temperature += " K";
-        windSpeed += " m/s";
+        windSpeed += " m / s";
     }
     else if(units === "Metric"){
         temperature += " °C";
-        windSpeed += " m/s";
+        windSpeed += " m / s";
     }
     else if(units === "Imperial"){
         temperature += " °F";
-        windSpeed += " miles/hour";
+        windSpeed += " mi / hour";
     }
 
 
@@ -173,25 +173,91 @@ document.getElementById("imperialUnitsButton").addEventListener("click", () => {
     const newTemperature = Math.round(changeTemperatureType(parseInt(document.getElementById("temp").innerText.split(" ")[0]), localStorage.getItem("Units"), "Imperial"));
     if(newTemperature){
         document.getElementById("temp").innerText = newTemperature + " °F";
-        localStorage.setItem("Units", "Imperial");
     }
+
+    const newSpeed = Math.round(changeSpeedType(parseInt(document.getElementById("windSpeed").innerText.split(" ")[0]), localStorage.getItem("Units"), "Imperial"));
+    if(newSpeed){
+        document.getElementById("windSpeed").innerText = newSpeed + " mi / hour";
+    }
+
+    localStorage.setItem("Units", "Imperial");
 });
 document.getElementById("metricUnitsButton").addEventListener("click", () => {
     const newTemperature = Math.round(changeTemperatureType(parseInt(document.getElementById("temp").innerText.split(" ")[0]), localStorage.getItem("Units"), "Metric"));
     if(newTemperature){
         document.getElementById("temp").innerText = newTemperature + " °C";
-        localStorage.setItem("Units", "Metric");
     }
+
+    const newSpeed = Math.round(changeSpeedType(parseInt(document.getElementById("windSpeed").innerText.split(" ")[0]), localStorage.getItem("Units"), "Metric"));
+    if(newSpeed){
+        document.getElementById("windSpeed").innerText = newSpeed + " m / s";
+    }
+
+    localStorage.setItem("Units", "Metric");
 });
 document.getElementById("standardUnitsButton").addEventListener("click", () => {
     const newTemperature = Math.round(changeTemperatureType(parseInt(document.getElementById("temp").innerText.split(" ")[0]), localStorage.getItem("Units"), "Standard"));
     if(newTemperature){
         document.getElementById("temp").innerText = newTemperature + " K";
-        localStorage.setItem("Units", "Standard");
     }
+
+    const newSpeed = Math.round(changeSpeedType(parseInt(document.getElementById("windSpeed").innerText.split(" ")[0]), localStorage.getItem("Units"), "Standard"));
+    if(newSpeed){
+        document.getElementById("windSpeed").innerText = newSpeed + " m / s";
+    }
+
+    localStorage.setItem("Units", "Standard");
 });
 
 
+
+
+function changeSpeedType(speed, startType, endType){
+    switch(startType){
+        case "Imperial":{
+            switch(endType){
+                case "Metric":{
+                    return speed / 2.237;
+                }
+                case "Standard":{
+                    return speed /  2.237;
+                }
+                default:{
+                    return speed;
+                }
+            }
+            break;
+        }
+        case "Metric":{
+            switch(endType){
+                case "Imperial":{
+                    return speed * 2.237;
+                }
+                case "Standard":{
+                    return speed;
+                }
+                default:{
+                    return speed;
+                }
+            }
+            break;
+        }
+        case "Standard":{
+            switch(endType){
+                case "Imperial":{
+                    return speed * 2.237;
+                }
+                case "Metric":{
+                    return speed;
+                }
+                default:{
+                    return speed;
+                }
+            }
+            break;
+        }
+    }
+}
 // Function to change the temp into "Imperial"(Farenheit), "Metric"(Celsius), or "Standard"(Kelvin).
 function changeTemperatureType(temp, startType, endType){
     switch(startType){
