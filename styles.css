@@ -5,10 +5,10 @@
     font-size: 2vw;
 }
 #findWeather{
-    height: 30vh;
+    height: 25vw;
     margin: 2px 5px 5px;
     background-color: blue;
-    border-radius: 0px 100px;
+    border-radius: 0px 75px;
 }
 h1{
     font-size: 6vw;
@@ -16,10 +16,11 @@ h1{
     margin: 5px 5px;
 }
 img[src="geolocationIcon.png"]{
-    height: 60px;
+    height: 5vw;
 }
 img[src="geolocationIcon.png"]:hover{
     cursor: pointer;
+    opacity: 0.75;
 }
 #imageBackground{
     border-radius: 5px;
@@ -67,28 +68,35 @@ img[src="geolocationIcon.png"]:hover{
 #locationInformation{
     position: absolute;
     top: 50%;
-    left: 20%;
     transform: translateY(-50%);
     align-self: center;
 }
 #searchForm{
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #ErrorText{
     color: red;
     font-weight: bold;
+    text-align: center;
 }
 #searchText{
     border: none;
     letter-spacing: 0.2em;
-    height: 50px;
+    height: 6vw;
     border-radius: 20px;
     text-align: center;
+    font-size: 3vw;
 }
 #currentLocationButton:hover{
     cursor: pointer;
 }
-#unitsHeader{
-    text-align: center;
-    margin: 10px 0px;
+#units{
+    margin-top: 30px;
+}
+.unitButton{
+    margin: 0px 10px;
+    border-radius: 5px;
+    font-size: 1.5vw;
 }
