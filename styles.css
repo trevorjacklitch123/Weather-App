@@ -39,17 +39,8 @@ img[src="geolocationIcon.png"]:hover{
     font-weight: bold;
 }
 #map{
-    height: 30vw;
+    height: 35vh;
     width: 100%;
-}
-@media only screen and (min-width: 415px) {
-    #container{
-        display: grid;
-        grid-template-columns: 50% 50%;
-    }
-    :root{
-        margin: 0px 8vw;
-    }
 }
 #locationContainer{
     height: 6vw;
@@ -98,5 +89,25 @@ img[src="geolocationIcon.png"]:hover{
 .unitButton{
     margin: 0px 10px;
     border-radius: 5px;
-    font-size: 1.5vw;
+    font-size: 10px;
+    width: 70px;
+    height: 30px;
+}
+@media only screen and (min-width: 415px) {
+    #container{
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+    :root{
+        margin: 0px 8vw;
+    }
+    .unitButton{
+        width: 8vw;
+        height: 3vw;
+        margin: 0px 10px;
+        font-size: 1.5vw;
+    }
+    #map{
+        height: 30vw;
+    }
 }
